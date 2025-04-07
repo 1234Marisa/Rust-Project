@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Book Exchange</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<header>
+
+    <h1>Welcome to Campus Book Exchange</h1>
+    <button id="login-btn">Login</button>
+</header>
+
+<section id="book-list">
+    <h2>Available Books</h2>
+    <div id="books"></div>
+</section>
+
+<section id="add-book">
+    <h2>Add a New Book</h2>
+    <form id="book-form">
+        <input type="text" id="book-title" placeholder="Title" required>
+        <input type="text" id="book-author" placeholder="Author" required>
+        <input type="number" id="book-price" placeholder="Price" required>
+        <button type="submit">Add Book</button>
+    </form>
+</section>
+
+<script src="/assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Book Exchange</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<!-- Header Section with Logo -->
+<header>
+    <div class="logo">
+        <img src="/assets/images/dragon.jpg" alt="Campus Book Exchange Logo" id="logo-img">
+    </div>
+    <h1>Welcome to Campus Book Exchange</h1>
+    <button id="login-btn">Login</button>
+</header>
+
+<!-- Book List Section -->
+<section id="book-list">
+    <h2>Available Books</h2>
+    <div id="books" class="book-container"></div>
+</section>
+
+<!-- Add New Book Section -->
+<section id="add-book">
+    <h2>Add a New Book</h2>
+    <form id="book-form">
+        <input type="text" id="book-title" placeholder="Title" required>
+        <input type="text" id="book-author" placeholder="Author" required>
+        <input type="number" id="book-price" placeholder="Price" required>
+        <button type="submit">Add Book</button>
+    </form>
+</section>
+
+<script src="/assets/script.js"></script>
+</body>
+</html>
