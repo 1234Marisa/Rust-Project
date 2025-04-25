@@ -1,1 +1,15 @@
+# IDE 相关
+.idea/
+*.iml
+*.swp
+*.swo
 
+# 构建输出
+frontend/dist/
+
+# 缓存和日志
+*.log
+*.cache
+*.tmp
+assets/buffer/
+target/
