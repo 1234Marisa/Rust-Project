@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 【孤街酒客】二手书籍交易平台</title>
+    <!-- 网站说明 -->
+    <meta name="description" content="二手书籍交易平台，汇集了包括各种类别的二手书籍" />
+
+    <!-- 引入facicon.ico网页图标 -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="/assets/sytle.css">
+    <!-- 引入字体图标 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .cart-section {
+            min-height: calc(100vh - 400px);
+            padding: 2rem 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .cart-clear {
+            background-color: var(--light-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .cart-clear:hover {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--light-text-color);
+        }
+        
+        .cart-empty img {
+            width: 150px;
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+        }
+        
+        .cart-empty p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        
+        .cart-table th {
+            background-color: var(--background-color);
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .cart-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        
+        .cart-product {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-product img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--background-color);
+        }
+        
+        .quantity-input {
+            width: 40px;
+            height: 28px;
+            border: 1px solid var(--border-color);
+            border-left: none;
+            border-right: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .remove-item {
+            color: var(--danger-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .remove-item:hover {
+            color: #721c24;
+            text-decoration: underline;
+        }
+        
+        .cart-summary {
+            background-color: var(--background-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-row.total {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .checkout-button {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .checkout-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .continue-shopping {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .continue-shopping:hover {
+            text-decoration: underline;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .cart-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .cart-table th:nth-child(3), 
+            .cart-table td:nth-child(3) {
+                display: none;
+            }
+            
+            .cart-product {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            
+            .cart-product img {
+                margin-bottom: 0.5rem;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部快捷导航模块 -->
+    <div class="header-container">
+        <header>
+            <h1>【孤街酒客】二手书籍交易平台</h1>
+            
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="搜索图书...">
+                <button id="search-button">搜索</button>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li><a href="#">卖书</a></li>
+                    <li>
+                        <a href="/cart.html" class="cart-link active">
+                            购物车
+                            <span class="cart-count">0</span>
+                        </a>
+                    </li>
+                    <li class="login-item"><a href="/login.html">登录</a></li>
+                    <li class="user-menu" style="display: none;">
+                        <a href="#" id="user-dropdown">
+                            <span id="username-display">用户名</span>
+                            <span class="student-badge" id="student-badge" style="display: none;">学生</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#">个人中心</a>
+                            <a href="#">我的订单</a>
+                            <a href="#" id="logout-btn">退出登录</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <section class="cart-section">
+            <div class="container">
+                <div class="cart-header">
+                    <h2 class="section-title">我的购物车</h2>
+                    <button class="cart-clear" id="clear-cart">清空购物车</button>
+                </div>
+                
+                <div id="cart-content">
+                    <!-- 购物车内容将由JavaScript动态生成 -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>【孤街酒客】二手书籍交易平台致力于为广大读者提供优质的二手图书交易服务。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>邮箱: contact@gujie.com</p>
+                    <p>电话: 12345678910</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="#">分类</a></li>
+                        <li><a href="#">卖书</a></li>
+                        <li><a href="/cart.html">购物车</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 【孤街酒客】二手书籍交易平台. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查登录状态
+            const user = checkLoginStatus();
+            
+            // 渲染购物车
+            renderCart();
+            
+            // 设置购物车按钮事件
+            setupCartEvents();
+            
+            // 渲染购物车内容
+            function renderCart() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartContent = document.getElementById('cart-content');
+                
+                if (cart.length === 0) {
+                    cartContent.innerHTML = `
+                        <div class="cart-empty">
+                            <img src="/assets/images/empty-cart.png" alt="空购物车" onerror="this.src='/assets/images/inner.jpg'; this.onerror=null;">
+                            <p>您的购物车还是空的</p>
+                            <a href="/" class="action-button">继续购物</a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let cartHTML = `
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>图书信息</th>
+                                <th>价格</th>
+                                <th>数量</th>
+                                <th>小计</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                let totalPrice = 0;
+                let totalItems = 0;
+                
+                cart.forEach(item => {
+                    const subtotal = item.price * item.quantity;
+                    totalPrice += subtotal;
+                    totalItems += item.quantity;
+                    
+                    cartHTML += `
+                        <tr>
+                            <td>
+                                <div class="cart-product">
+                                    <img src="${item.image}" alt="${item.title}" onerror="this.src='/assets/images/inner.jpg'; this.onerror=null;">
+                                    <div>
+                                        <h4>${item.title}</h4>
+                                        <p>${item.author || ''}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>¥${item.price.toFixed(2)}</td>
+                            <td>
+                                <div class="cart-quantity">
+                                    <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                                    <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                    <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                                </div>
+                            </td>
+                            <td>¥${subtotal.toFixed(2)}</td>
+                            <td>
+                                <button class="remove-item" data-id="${item.id}">删除</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                cartHTML += `
+                        </tbody>
+                    </table>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <a href="/" class="continue-shopping">← 继续购物</a>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="cart-summary">
+                                <h3>订单摘要</h3>
+                                <div class="summary-row">
+                                    <span>商品数量</span>
+                                    <span>${totalItems}件</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>商品金额</span>
+                                    <span>¥${totalPrice.toFixed(2)}</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span>优惠</span>
+                                    <span>¥0.00</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span>应付金额</span>
+                                    <span>¥${totalPrice.toFixed(2)}</span>
+                                </div>
+                                <button class="checkout-button" id="checkout-button">结算</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                cartContent.innerHTML = cartHTML;
+                
+                // 添加数量调整按钮事件
+                const increaseButtons = document.querySelectorAll('.increase');
+                const decreaseButtons = document.querySelectorAll('.decrease');
+                const removeButtons = document.querySelectorAll('.remove-item');
+                
+                increaseButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        updateQuantity(id, 1);
+                    });
+                });
+                
+                decreaseButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        updateQuantity(id, -1);
+                    });
+                });
+                
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        removeFromCart(id);
+                    });
+                });
+                
+                // 结算按钮事件
+                const checkoutButton = document.getElementById('checkout-button');
+                if (checkoutButton) {
+                    checkoutButton.addEventListener('click', function() {
+                        if (!user) {
+                            showNotification('请先登录再进行结算', 'warning');
+                            setTimeout(() => {
+                                window.location.href = '/login.html';
+                            }, 1500);
+                            return;
+                        }
+                        
+                        // 模拟结算过程
+                        showNotification('正在处理您的订单...', 'info');
+                        
+                        setTimeout(() => {
+                            // 清空购物车
+                            localStorage.removeItem('cart');
+                            showNotification('订单已提交成功！', 'success');
+                            
+                            // 重新渲染购物车
+                            setTimeout(() => {
+                                renderCart();
+                                updateCartCount();
+                            }, 1000);
+                        }, 2000);
+                    });
+                }
+            }
+            
+            // 设置购物车事件
+            function setupCartEvents() {
+                const clearCartButton = document.getElementById('clear-cart');
+                if (clearCartButton) {
+                    clearCartButton.addEventListener('click', function() {
+                        if (confirm('确定要清空购物车吗？')) {
+                            localStorage.removeItem('cart');
+                            renderCart();
+                            updateCartCount();
+                            showNotification('购物车已清空');
+                        }
+                    });
+                }
+            }
+            
+            // 更新商品数量
+            function updateQuantity(id, change) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const item = cart.find(item => item.id == id);
+                
+                if (item) {
+                    item.quantity += change;
+                    
+                    if (item.quantity <= 0) {
+                        removeFromCart(id);
+                        return;
+                    }
+                    
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    renderCart();
+                    updateCartCount();
+                }
+            }
+            
+            // 从购物车中移除商品
+            function removeFromCart(id) {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                cart = cart.filter(item => item.id != id);
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+                updateCartCount();
+                showNotification('商品已从购物车中移除');
+            }
+        });
+    </script>
+</body>
+
+</html> 

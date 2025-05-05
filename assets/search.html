@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果 - 【孤街酒客】二手书籍交易平台</title>
+    <!-- 网站说明 -->
+    <meta name="description" content="二手书籍交易平台，汇集了包括各种类别的二手书籍" />
+
+    <!-- 引入facicon.ico网页图标 -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="/assets/sytle.css">
+    <!-- 引入字体图标 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .search-section {
+            min-height: calc(100vh - 400px);
+            padding: 2rem 0;
+        }
+        
+        .search-result-header {
+            margin-bottom: 2rem;
+        }
+        
+        .search-term {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-option {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .filter-option:hover, .filter-option.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .sort-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+            outline: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .sort-select:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--light-text-color);
+        }
+        
+        .no-results img {
+            width: 120px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .search-tips {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--background-color);
+            border-radius: 8px;
+        }
+        
+        .search-tips h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .search-tips ul {
+            padding-left: 1.5rem;
+        }
+        
+        .search-tips li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部快捷导航模块 -->
+    <div class="header-container">
+        <header>
+            <h1>【孤街酒客】二手书籍交易平台</h1>
+            
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="搜索图书...">
+                <button id="search-button">搜索</button>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li><a href="#">卖书</a></li>
+                    <li>
+                        <a href="/cart.html" class="cart-link">
+                            购物车
+                            <span class="cart-count">0</span>
+                        </a>
+                    </li>
+                    <li class="login-item"><a href="/login.html">登录</a></li>
+                    <li class="user-menu" style="display: none;">
+                        <a href="#" id="user-dropdown">
+                            <span id="username-display">用户名</span>
+                            <span class="student-badge" id="student-badge" style="display: none;">学生</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#">个人中心</a>
+                            <a href="#">我的订单</a>
+                            <a href="#" id="logout-btn">退出登录</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <section class="search-section">
+            <div class="container">
+                <div class="search-result-header">
+                    <h2 class="section-title">搜索结果: <span class="search-term" id="search-term">关键词</span></h2>
+                    <p id="results-count">找到 0 本相关图书</p>
+                </div>
+                
+                <div class="filter-options">
+                    <div class="filter-option active" data-filter="all">全部</div>
+                    <div class="filter-option" data-filter="计算机">计算机</div>
+                    <div class="filter-option" data-filter="文学">文学</div>
+                    <div class="filter-option" data-filter="管理">管理</div>
+                    <div class="filter-option" data-filter="英语">英语</div>
+                </div>
+                
+                <div class="sort-options">
+                    <select id="sort-select" class="sort-select">
+                        <option value="relevance">按相关度排序</option>
+                        <option value="price-asc">价格从低到高</option>
+                        <option value="price-desc">价格从高到低</option>
+                    </select>
+                </div>
+                
+                <div id="search-results" class="books-container">
+                    <!-- 搜索结果将由JavaScript动态生成 -->
+                    <div class="loading">加载中...</div>
+                </div>
+                
+                <div class="search-tips">
+                    <h3>搜索技巧</h3>
+                    <ul>
+                        <li>尝试使用更准确的关键词</li>
+                        <li>搜索书名、作者名或书籍内容</li>
+                        <li>检查关键词拼写是否正确</li>
+                        <li>可以尝试使用图书分类筛选结果</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>【孤街酒客】二手书籍交易平台致力于为广大读者提供优质的二手图书交易服务。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>邮箱: contact@gujie.com</p>
+                    <p>电话: 12345678910</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="#">分类</a></li>
+                        <li><a href="#">卖书</a></li>
+                        <li><a href="/cart.html">购物车</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 【孤街酒客】二手书籍交易平台. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查登录状态
+            const user = checkLoginStatus();
+            
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchTerm = urlParams.get('q');
+            
+            // 显示搜索关键词
+            const searchTermEl = document.getElementById('search-term');
+            if (searchTerm) {
+                searchTermEl.textContent = searchTerm;
+                document.getElementById('search-input').value = searchTerm;
+            }
+            
+            // 获取所有图书并进行搜索
+            fetchBooksAndSearch();
+            
+            // 设置筛选和排序事件
+            setupFilterAndSort();
+            
+            // 搜索按钮事件
+            const searchButton = document.getElementById('search-button');
+            searchButton.addEventListener('click', function() {
+                const newSearchTerm = document.getElementById('search-input').value.trim();
+                if (newSearchTerm) {
+                    window.location.href = `/search.html?q=${encodeURIComponent(newSearchTerm)}`;
+                }
+            });
+            
+            // 回车键搜索
+            document.getElementById('search-input').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    const newSearchTerm = this.value.trim();
+                    if (newSearchTerm) {
+                        window.location.href = `/search.html?q=${encodeURIComponent(newSearchTerm)}`;
+                    }
+                }
+            });
+            
+            // 获取所有图书并执行搜索
+            function fetchBooksAndSearch() {
+                fetch('/api/books')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('获取图书数据失败');
+                        }
+                        return response.json();
+                    })
+                    .then(books => {
+                        // 保存所有图书数据
+                        window.allBooks = books;
+                        
+                        // 执行搜索
+                        if (searchTerm) {
+                            const searchResults = searchInBooks(books, searchTerm);
+                            displaySearchResults(searchResults);
+                        } else {
+                            // 如果没有搜索词，显示所有图书
+                            displaySearchResults(books);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('search-results').innerHTML = `
+                            <div class="no-results">
+                                <p>加载图书数据时出错</p>
+                                <p>请稍后再试</p>
+                            </div>
+                        `;
+                    });
+            }
+            
+            // 在图书中搜索关键词
+            function searchInBooks(books, term) {
+                term = term.toLowerCase();
+                return books.filter(book => 
+                    book.title.toLowerCase().includes(term) || 
+                    book.author.toLowerCase().includes(term) ||
+                    (book.description && book.description.toLowerCase().includes(term)) ||
+                    (book.category && book.category.toLowerCase().includes(term))
+                );
+            }
+            
+            // 显示搜索结果
+            function displaySearchResults(books) {
+                const resultsContainer = document.getElementById('search-results');
+                document.getElementById('results-count').textContent = `找到 ${books.length} 本相关图书`;
+                
+                if (books.length === 0) {
+                    resultsContainer.innerHTML = `
+                        <div class="no-results">
+                            <p>未找到匹配的图书</p>
+                            <p>请尝试其他关键词或浏览所有图书</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 默认排序：按相关度（ID顺序）
+                const sortBy = document.getElementById('sort-select').value;
+                const sortedBooks = sortBooks(books, sortBy);
+                
+                resultsContainer.innerHTML = '';
+                
+                sortedBooks.forEach(book => {
+                    const bookCard = document.createElement('div');
+                    bookCard.classList.add('book-card');
+                    bookCard.setAttribute('data-category', book.category || '');
+                    
+                    const imageUrl = book.image || '/assets/images/inner.jpg';
+                    
+                    bookCard.innerHTML = `
+                        <img src="${imageUrl}" alt="${book.title}" class="book-image">
+                        <div class="book-info">
+                            <h3 class="book-title">${book.title}</h3>
+                            <p class="book-author">作者: ${book.author}</p>
+                            <p class="book-price">价格: ¥${book.price.toFixed(2)}</p>
+                            ${book.description ? `<p class="book-description">${book.description}</p>` : ''}
+                            ${book.category ? `<p class="book-category">${book.category}</p>` : ''}
+                            <button class="action-button view-details" data-id="${book.id}">查看详情</button>
+                            <button class="action-button add-to-cart" data-id="${book.id}">加入购物车</button>
+                        </div>
+                    `;
+                    
+                    resultsContainer.appendChild(bookCard);
+                });
+                
+                // 添加事件监听器
+                addBookButtonListeners();
+            }
+            
+            // 设置筛选和排序事件
+            function setupFilterAndSort() {
+                // 筛选按钮事件
+                const filterButtons = document.querySelectorAll('.filter-option');
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // 移除所有活跃状态
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        // 添加当前按钮活跃状态
+                        this.classList.add('active');
+                        
+                        const filter = this.getAttribute('data-filter');
+                        filterResults(filter);
+                    });
+                });
+                
+                // 排序选择事件
+                const sortSelect = document.getElementById('sort-select');
+                sortSelect.addEventListener('change', function() {
+                    const activeFilter = document.querySelector('.filter-option.active').getAttribute('data-filter');
+                    filterResults(activeFilter);
+                });
+            }
+            
+            // 筛选搜索结果
+            function filterResults(category) {
+                if (!window.allBooks) return;
+                
+                let filtered = window.allBooks;
+                
+                // 先按关键词筛选
+                if (searchTerm) {
+                    filtered = searchInBooks(filtered, searchTerm);
+                }
+                
+                // 再按分类筛选
+                if (category && category !== 'all') {
+                    filtered = filtered.filter(book => 
+                        book.category && book.category.toLowerCase() === category.toLowerCase()
+                    );
+                }
+                
+                // 排序
+                const sortBy = document.getElementById('sort-select').value;
+                const sortedBooks = sortBooks(filtered, sortBy);
+                
+                // 显示结果
+                displaySearchResults(sortedBooks);
+            }
+            
+            // 排序图书
+            function sortBooks(books, sortBy) {
+                const sorted = [...books];
+                
+                switch (sortBy) {
+                    case 'price-asc':
+                        sorted.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-desc':
+                        sorted.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'relevance':
+                    default:
+                        // 默认按ID排序（相关度）
+                        sorted.sort((a, b) => {
+                            const idA = a.id || 0;
+                            const idB = b.id || 0;
+                            return idA - idB;
+                        });
+                        break;
+                }
+                
+                return sorted;
+            }
+        });
+    </script>
+</body>
+
+</html> 

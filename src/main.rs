@@ -29,7 +29,7 @@ fn rocket() -> _ {
         // 提供静态文件：挂载 `/assets` 路径用于提供静态文件
         .mount("/assets", FileServer::from(relative!("/assets")))
         // 渲染HTML页面：将根路径（/）指向 index.html
-        .mount("/", routes![index, login_page])
+        .mount("/", routes![index, login_page, cart_page, search_page])
         // 添加API路由
         .mount("/api", routes![add_book, get_books, get_book_by_id, update_book, delete_book])
         // 添加用户API路由
@@ -51,5 +51,18 @@ fn index() -> rocket::response::content::RawHtml<String> {
 fn login_page() -> rocket::response::content::RawHtml<String> {
     // 返回登录页面
     let html_content = include_str!("../assets/login.html");
+    rocket::response::content::RawHtml(html_content.to_string())
+}
+
+#[get("/cart.html")]
+fn cart_page() -> rocket::response::content::RawHtml<String> {
+    // 返回购物车页面
+    let html_content = include_str!("../assets/cart.html");
+    rocket::response::content::RawHtml(html_content.to_string())
+}
+
+#[get("/search.html")]
+fn search_page() -> rocket::response::content::RawHtml<String> {
+    let html_content = include_str!("../assets/search.html");
     rocket::response::content::RawHtml(html_content.to_string())
 }

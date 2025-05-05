@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         if (bookInCart) {
             bookInCart.quantity += 1;
+            showNotification("已增加图书数量！");
         } else {
             // Find book in allBooks array
             const bookToAdd = allBooks.find(book => book.id === parseInt(bookId) || book.id === bookId);
@@ -171,10 +172,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 cart.push({
                     id: bookToAdd.id,
                     title: bookToAdd.title,
+                    author: bookToAdd.author,
                     price: bookToAdd.price,
-                    image: bookToAdd.image,
+                    image: bookToAdd.image || "/assets/images/book-default.jpg",
                     quantity: 1
                 });
+                showNotification("图书已添加到购物车！");
             }
         }
         
@@ -183,9 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Update cart count
         updateCartCount();
-        
-        // Show success message
-        showNotification("图书已添加到购物车");
     }
     
     // Update cart count in navbar
@@ -200,15 +200,20 @@ document.addEventListener("DOMContentLoaded", function () {
         
         if (totalItems > 0) {
             cartCountElement.style.display = "flex";
+            // 添加闪烁动画效果
+            cartCountElement.classList.add('pulse');
+            setTimeout(() => {
+                cartCountElement.classList.remove('pulse');
+            }, 1000);
         } else {
             cartCountElement.style.display = "none";
         }
     }
     
-    // Show notification
-    function showNotification(message) {
+    // Show notification with type
+    function showNotification(message, type = "success") {
         const notification = document.createElement("div");
-        notification.classList.add("notification");
+        notification.classList.add("notification", type);
         notification.textContent = message;
         
         document.body.appendChild(notification);
@@ -284,17 +289,12 @@ document.addEventListener("DOMContentLoaded", function () {
         
         if (searchTerm === "") {
             displayBooks(allBooks);
+            showNotification("请输入搜索关键词", "warning");
             return;
         }
         
-        const filteredBooks = allBooks.filter(book => 
-            book.title.toLowerCase().includes(searchTerm) || 
-            book.author.toLowerCase().includes(searchTerm) ||
-            (book.description && book.description.toLowerCase().includes(searchTerm)) ||
-            (book.category && book.category.toLowerCase().includes(searchTerm))
-        );
-        
-        displayBooks(filteredBooks);
+        // 跳转到搜索结果页面
+        window.location.href = `/search.html?q=${encodeURIComponent(searchTerm)}`;
     }
     
     // 4. Category filtering
