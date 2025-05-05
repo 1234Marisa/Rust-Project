@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // 检查登录状态
+    const user = checkLoginStatus();
+    
+    // 设置登出按钮
+    setupLogout();
+    
     // DOM elements
     const booksContainer = document.getElementById("books-container");
     const bookForm = document.getElementById("book-form");
@@ -319,3 +325,55 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchBooks();
     updateCartCount();
 });
+
+// 用户登录状态管理
+function checkLoginStatus() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+        try {
+            const user = JSON.parse(userJson);
+            // 更新UI显示用户已登录
+            document.querySelector('.login-item').style.display = 'none';
+            document.querySelector('.user-menu').style.display = 'block';
+            
+            // 设置用户名显示
+            document.getElementById('username-display').textContent = user.username;
+            
+            // 如果是学生，显示学生标记
+            if (user.is_student) {
+                document.getElementById('student-badge').style.display = 'inline-block';
+            } else {
+                document.getElementById('student-badge').style.display = 'none';
+            }
+            
+            return user;
+        } catch (e) {
+            console.error('解析用户数据出错:', e);
+            localStorage.removeItem('user');
+        }
+    }
+    
+    // 未登录状态
+    document.querySelector('.login-item').style.display = 'block';
+    document.querySelector('.user-menu').style.display = 'none';
+    return null;
+}
+
+// 处理登出
+function setupLogout() {
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 清除用户数据
+            localStorage.removeItem('user');
+            
+            // 更新UI
+            checkLoginStatus();
+            
+            // 显示通知
+            showNotification('您已成功退出登录');
+        });
+    }
+}

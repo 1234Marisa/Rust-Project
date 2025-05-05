@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 【孤街酒客】二手书籍交易平台</title>
+    <!-- 网站说明 -->
+    <meta name="description" content="二手书籍交易平台，汇集了包括各种类别的二手书籍" />
+
+    <!-- 引入facicon.ico网页图标 -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="/assets/sytle.css">
+    <!-- 引入字体图标 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 400px);
+            padding: 2rem 0;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--light-text-color);
+            position: relative;
+        }
+        
+        .tab.active {
+            color: var(--primary-color);
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        
+        .form-error {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .form-success {
+            color: #4CAF50;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .student-id-field {
+            display: none;
+        }
+        
+        .student-id-field.visible {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部快捷导航模块 -->
+    <div class="header-container">
+        <header>
+            <h1>【孤街酒客】二手书籍交易平台</h1>
+            
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="搜索图书...">
+                <button id="search-button">搜索</button>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li><a href="#">卖书</a></li>
+                    <li>
+                        <a href="#" class="cart-link">
+                            购物车
+                            <span class="cart-count">0</span>
+                        </a>
+                    </li>
+                    <li><a href="/login.html" class="active">登录</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <section class="login-section">
+            <div class="login-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="login">登录</div>
+                    <div class="tab" data-tab="register">注册</div>
+                </div>
+                
+                <div class="tab-content active" id="login-tab">
+                    <h2 class="form-title">账号登录</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-username">用户名</label>
+                            <input type="text" id="login-username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">密码</label>
+                            <input type="password" id="login-password" class="form-control" required>
+                        </div>
+                        <div class="form-error" id="login-error"></div>
+                        <button type="submit" class="submit-button">登录</button>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="register-tab">
+                    <h2 class="form-title">新用户注册</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-username">用户名</label>
+                            <input type="text" id="register-username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">密码</label>
+                            <input type="password" id="register-password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">邮箱</label>
+                            <input type="email" id="register-email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-phone">手机号码</label>
+                            <input type="tel" id="register-phone" class="form-control">
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="is-student">
+                            <label for="is-student">我是学生</label>
+                        </div>
+                        <div class="form-group student-id-field" id="student-id-field">
+                            <label for="student-id">学号</label>
+                            <input type="text" id="student-id" class="form-control">
+                            <small>学生用户需要提供有效学号</small>
+                        </div>
+                        <div class="form-error" id="register-error"></div>
+                        <div class="form-success" id="register-success"></div>
+                        <button type="submit" class="submit-button">注册</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>【孤街酒客】二手书籍交易平台致力于为广大读者提供优质的二手图书交易服务。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>邮箱: contact@gujie.com</p>
+                    <p>电话: 12345678910</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="#">分类</a></li>
+                        <li><a href="#">卖书</a></li>
+                        <li><a href="#">购物车</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 【孤街酒客】二手书籍交易平台. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签切换
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有活跃状态
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // 添加活跃状态到当前标签
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+            
+            // 学生选择
+            const isStudentCheckbox = document.getElementById('is-student');
+            const studentIdField = document.getElementById('student-id-field');
+            
+            isStudentCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    studentIdField.classList.add('visible');
+                    document.getElementById('student-id').setAttribute('required', 'required');
+                } else {
+                    studentIdField.classList.remove('visible');
+                    document.getElementById('student-id').removeAttribute('required');
+                }
+            });
+            
+            // 登录表单提交
+            const loginForm = document.getElementById('login-form');
+            const loginError = document.getElementById('login-error');
+            
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const username = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+                
+                // 验证输入
+                if (!username || !password) {
+                    loginError.textContent = '请填写用户名和密码';
+                    return;
+                }
+                
+                // 发送登录请求
+                fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 登录成功
+                        loginError.textContent = '';
+                        
+                        // 保存用户信息到localStorage
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                        
+                        // 跳转到首页
+                        window.location.href = '/';
+                    } else {
+                        // 登录失败
+                        loginError.textContent = data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('登录出错:', error);
+                    loginError.textContent = '登录过程中出错，请稍后再试';
+                });
+            });
+            
+            // 注册表单提交
+            const registerForm = document.getElementById('register-form');
+            const registerError = document.getElementById('register-error');
+            const registerSuccess = document.getElementById('register-success');
+            
+            registerForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const username = document.getElementById('register-username').value;
+                const password = document.getElementById('register-password').value;
+                const email = document.getElementById('register-email').value;
+                const phone = document.getElementById('register-phone').value;
+                const isStudent = document.getElementById('is-student').checked;
+                const studentId = isStudent ? document.getElementById('student-id').value : null;
+                
+                // 验证输入
+                if (!username || !password) {
+                    registerError.textContent = '请填写用户名和密码';
+                    registerSuccess.textContent = '';
+                    return;
+                }
+                
+                if (isStudent && !studentId) {
+                    registerError.textContent = '请填写学号';
+                    registerSuccess.textContent = '';
+                    return;
+                }
+                
+                // 发送注册请求
+                fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        email: email || null,
+                        phone: phone || null,
+                        is_student: isStudent,
+                        student_id: studentId
+                    })
+                })
+                .then(response => {
+                    if (response.status === 409) {
+                        throw new Error('用户名已存在');
+                    }
+                    if (response.status === 400) {
+                        throw new Error('请提供有效的学生信息');
+                    }
+                    if (!response.ok) {
+                        throw new Error('注册失败');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 注册成功
+                    registerError.textContent = '';
+                    registerSuccess.textContent = '注册成功，请登录';
+                    registerForm.reset();
+                    
+                    // 自动切换到登录标签
+                    setTimeout(() => {
+                        document.querySelector('.tab[data-tab="login"]').click();
+                    }, 1500);
+                })
+                .catch(error => {
+                    console.error('注册出错:', error);
+                    registerError.textContent = error.message || '注册过程中出错，请稍后再试';
+                    registerSuccess.textContent = '';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html> 

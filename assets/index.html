@@ -29,7 +29,7 @@
             
             <nav>
                 <ul>
-                    <li><a href="index.html">首页</a></li>
+                    <li><a href="index.html" class="active">首页</a></li>
                     <li><a href="#">分类</a></li>
                     <li><a href="#">卖书</a></li>
                     <li>
@@ -38,7 +38,18 @@
                             <span class="cart-count">0</span>
                         </a>
                     </li>
-                    <li><a href="#">登录</a></li>
+                    <li class="login-item"><a href="login.html">登录</a></li>
+                    <li class="user-menu" style="display: none;">
+                        <a href="#" id="user-dropdown">
+                            <span id="username-display">用户名</span>
+                            <span class="student-badge" id="student-badge" style="display: none;">学生</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#">个人中心</a>
+                            <a href="#">我的订单</a>
+                            <a href="#" id="logout-btn">退出登录</a>
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </header>
