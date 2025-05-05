@@ -1,38 +1,253 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Book Exchange</title>
-    <link rel="stylesheet" href="/assets/style.css">
+    <title>【孤街酒客】-二手书籍交易平台</title>
+    <!-- 网站说明 -->
+    <meta name="description" content="二手书籍交易平台，汇集了包括各种类别的二手书籍" />
+
+    <!-- 引入facicon.ico网页图标 -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="assets/sytle.css">
+    <!-- 引入字体图标 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-<!-- Header Section with Logo -->
-<header>
-    <div class="logo">
-        <img src="/assets/images/dragon.jpg" alt="Campus Book Exchange Logo" id="logo-img">
+    <!-- 顶部快捷导航模块 -->
+    <div class="header-container">
+        <header>
+            <h1>【孤街酒客】二手书籍交易平台</h1>
+            
+            <div class="search-container">
+                <input type="search" id="search-input" placeholder="搜索图书...">
+                <button id="search-button">搜索</button>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li><a href="#">卖书</a></li>
+                    <li>
+                        <a href="#" class="cart-link">
+                            购物车
+                            <span class="cart-count">0</span>
+                        </a>
+                    </li>
+                    <li><a href="#">登录</a></li>
+                </ul>
+            </nav>
+        </header>
     </div>
-    <h1>Welcome to Campus Book Exchange</h1>
-    <button id="login-btn">Login</button>
-</header>
 
-<!-- Book List Section -->
-<section id="book-list">
-    <h2>Available Books</h2>
-    <div id="books" class="book-container"></div>
-</section>
+    <main>
+        <!-- 轮播图部分 -->
+        <section class="hero-section">
+            <div class="slider-container">
+                <div class="slider">
+                    <div class="slide active">
+                        <img src="assets/images/banner-gdust.png" alt="校园二手书">
+                        <div class="slide-content">
+                            <h2>校园二手书交易</h2>
+                            <p>让闲置图书流动起来</p>
+                            <a href="#books" class="action-button">立即浏览</a>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="assets/images/banner-2.jpg" alt="专业教材">
+                        <div class="slide-content">
+                            <h2>专业教材低价出售</h2>
+                            <p>大学教材、考研资料应有尽有</p>
+                            <a href="#books" class="action-button">立即浏览</a>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="assets/images/banner3.jpg" alt="文学作品">
+                        <div class="slide-content">
+                            <h2>精选文学作品</h2>
+                            <p>好书相伴，与你共度时光</p>
+                            <a href="#books" class="action-button">立即浏览</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-btn prev">&lt;</button>
+                <button class="slider-btn next">&gt;</button>
+                <div class="slider-dots">
+                    <span class="slider-dot active" data-index="0"></span>
+                    <span class="slider-dot" data-index="1"></span>
+                    <span class="slider-dot" data-index="2"></span>
+                </div>
+            </div>
+        </section>
 
-<!-- Add New Book Section -->
-<section id="add-book">
-    <h2>Add a New Book</h2>
-    <form id="book-form">
-        <input type="text" id="book-title" placeholder="Title" required>
-        <input type="text" id="book-author" placeholder="Author" required>
-        <input type="number" id="book-price" placeholder="Price" required>
-        <button type="submit">Add Book</button>
-    </form>
-</section>
+        <!-- 分类导航 -->
+        <section class="categories-section">
+            <h2 class="section-title">图书分类</h2>
+            <div class="categories-container">
+                <a href="#" class="category-filter active" data-category="all">
+                    <div class="category-card">
+                        <img src="assets/images/inner.jpg" alt="全部图书">
+                        <h3>全部图书</h3>
+                    </div>
+                </a>
+                <a href="#" class="category-filter" data-category="计算机">
+                    <div class="category-card">
+                        <img src="assets/images/inner.jpg" alt="计算机">
+                        <h3>计算机</h3>
+                    </div>
+                </a>
+                <a href="#" class="category-filter" data-category="文学">
+                    <div class="category-card">
+                        <img src="assets/images/inner.jpg" alt="文学">
+                        <h3>文学</h3>
+                    </div>
+                </a>
+                <a href="#" class="category-filter" data-category="管理">
+                    <div class="category-card">
+                        <img src="assets/images/inner.jpg" alt="管理">
+                        <h3>管理</h3>
+                    </div>
+                </a>
+                <a href="#" class="category-filter" data-category="英语">
+                    <div class="category-card">
+                        <img src="assets/images/inner.jpg" alt="英语">
+                        <h3>英语</h3>
+                    </div>
+                </a>
+            </div>
+        </section>
 
-<script src="/assets/script.js"></script>
+        <!-- 图书列表 -->
+        <section id="books" class="books-section">
+            <h2 class="section-title">精选图书</h2>
+            <div id="books-container" class="books-container">
+                <!-- 图书卡片将通过JavaScript动态生成 -->
+                <div class="loading">加载中...</div>
+            </div>
+        </section>
+
+        <!-- 添加图书表单 -->
+        <section class="add-book-section">
+            <div class="form-container">
+                <h2 class="form-title">出售您的图书</h2>
+                <form id="book-form">
+                    <div class="form-group">
+                        <label for="book-title">书名</label>
+                        <input type="text" id="book-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-author">作者</label>
+                        <input type="text" id="book-author" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-price">价格 (¥)</label>
+                        <input type="number" id="book-price" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-category">分类</label>
+                        <select id="book-category" class="form-control">
+                            <option value="">选择分类</option>
+                            <option value="计算机">计算机</option>
+                            <option value="文学">文学</option>
+                            <option value="管理">管理</option>
+                            <option value="英语">英语</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-description">描述</label>
+                        <textarea id="book-description" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">提交</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>【孤街酒客】二手书籍交易平台致力于为广大读者提供优质的二手图书交易服务。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>邮箱: contact@gujie.com</p>
+                    <p>电话: 12345678910</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#">分类</a></li>
+                        <li><a href="#">卖书</a></li>
+                        <li><a href="#">购物车</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 【孤街酒客】二手书籍交易平台. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 轮播图和其他交互效果的JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 轮播图功能
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            let currentSlide = 0;
+            
+            function showSlide(index) {
+                // 隐藏所有幻灯片
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // 显示当前幻灯片
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+            
+            // 点击下一张
+            nextBtn.addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            });
+            
+            // 点击上一张
+            prevBtn.addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
+            
+            // 点击小圆点切换
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideIndex = this.getAttribute('data-index');
+                    showSlide(parseInt(slideIndex));
+                });
+            });
+            
+            // 自动轮播
+            setInterval(function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }, 5000);
+        });
+    </script>
+
+    <!-- 引入主要JavaScript文件 -->
+    <script src="assets/script.js"></script>
 </body>
+
 </html>

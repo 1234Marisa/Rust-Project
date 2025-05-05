@@ -1,0 +1,207 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+
+/* 顶头 */
+body{
+	min-width: 800px;
+	max-width: 900px;
+	display: flex;
+	flex-flow: column;
+	margin: 0 auto;
+	padding-left: 100px;
+	padding-right: 100px;
+	margin-top: 20px;
+}
+header>div{
+	float: left;
+}
+header>div:nth-child(1)>img{
+	width: 50px;
+	height: 50px;
+}
+header>div:nth-child(1)>span{
+	font-size: 30px;
+}
+header>div:nth-child(2){
+	margin-top: 1.2%;
+	float: right;
+}
+header>div:nth-child(2)>input{
+	font-size: 13px;
+	width: 250px;
+	height: 16px;
+	border: 2px solid #1E90FF;
+	padding: 10px;
+	float: left;
+}
+header>div:nth-child(2)>button{
+	background-color: #1E90FF;
+	width: 70px;
+	height: 40px;
+	font-weight: bold;
+	color: white;
+	border: 1px #1E90FF solid;
+}
+/* 分割线以上内容 */
+#gdaib-shop-head{
+	margin-top: 20px;
+}
+#gdaib-shop-head>span:nth-child(1){
+	font-size: 25px;
+	font-weight: bold;
+	color: #FF7F50;
+	border-bottom: 3px solid #FF7F50;
+	float: left;
+	margin-top: 2px;
+}
+#gdaib-shop-head>div{
+	line-height: 30px;
+	float: right;
+}
+#gdaib-shop-head>div>span:nth-child(odd){
+	color: #808080;
+}
+#gdaib-shop-head>div>span:nth-child(2){
+	font-weight: bold;
+	color: red;
+	margin-right: 20px;
+}
+#gdaib-shop-head>div>span:nth-child(4){
+	font-weight: bold;
+	color: #FF4500;
+	font-size: 25px;
+}
+/* 购物车列表表头 */
+#gdaib-goodslists-title{
+	width: 100%;
+	height: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#gdaib-goodslists-title>span{
+	font-size: 15px;
+	color: #A9A9A9;
+	float: left;
+}
+#gdaib-goodslists-title>span:nth-child(1){
+	width: 15%;
+}
+#gdaib-goodslists-title>span:nth-child(2){
+	width: 35%;
+}
+#gdaib-goodslists-title>span:nth-child(3),#gdaib-goodslists-title>span:nth-child(4),#gdaib-goodslists-title>span:nth-child(5),#gdaib-goodslists-title>span:nth-child(6){
+	width: 12.5%;
+}
+#gdaib-shop-head>div>span:last-child>button{
+	margin-left: 20px;
+	width: 80px;
+	height: 30px;
+	color: white;
+	font-weight: bold;
+	background-color: #FF8C00;
+	border: 1px solid #FF8C00;
+	float: right;
+}
+/* 购物车商品列表 */
+#gdaib-mylists{
+	width: 100%;
+}
+#gdaib-mylists>div{
+	padding-top: 10px;
+	width: 100%;
+	height: 100px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #D3D3D3;
+}
+#gdaib-mylists>div>div:nth-child(1){
+	width: 5%;
+	float: left;
+	height: 100%;
+	line-height: 100px;
+	text-align: center;
+}
+#gdaib-mylists>div>div:nth-child(2){
+	width: 45%;
+	height: 100%;
+	float: left;
+}
+#gdaib-mylists>div>div:nth-child(2)>img{
+	width: 90px;
+	height: 90px;
+	float: left;
+}
+#gdaib-mylists>div>div:nth-child(2)>p{
+	width: 35%;
+	height: 100%;
+	padding-left: 25px;
+	float: left;
+	font-size: 13px;
+	font-family: "微软雅黑";
+	color: #696969;
+}
+#gdaib-mylists>div>div:nth-child(2)>span{
+	padding-left: 20px;
+	width: 25%;
+	height: 100%;
+	float: left;
+	font-size: 12px;
+	color: #A9A9A9;
+	font-family: "微软雅黑";
+}
+#gdaib-mylists>div>div:nth-child(3),#gdaib-mylists>div>div:nth-child(4),#gdaib-mylists>div>div:nth-child(5),#gdaib-mylists>div>div:nth-child(6){
+	width: 12.5%;
+	height: 100%;
+	float: left;
+}
+#gdaib-mylists>div>div:nth-child(3){
+	font-family: "微软雅黑";
+	font-weight: bold;
+	font-size: 13px;
+}
+#gdaib-mylists>div>div:nth-child(4)>button{
+	width: 15px;
+	height: 25px;
+	float: left;
+	border: 1px solid #808080;
+	background-color: #F5F5F5;
+}
+#gdaib-mylists>div>div:nth-child(4)>span{
+	display: block;
+	width: 25px;
+	height: 23px;
+	line-height: 23px;
+	border-top: 1px solid #808080;
+	border-bottom: 1px solid #808080;
+	text-align: center;
+	float: left;
+}
+#gdaib-mylists>div>div:nth-child(5){
+	font-size: 15px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	color: #FF4500;
+}
+#gdaib-mylists>div>div:nth-child(6)>a{
+	text-decoration: none;
+	font-size: 13px;
+	color: #808080;
+	line-height: 20px;
+}
+
+
+.mod_copyright {
+	text-align: center;
+}
+.mod_copyright_links {
+	margin: 20px 0 15px 0;
+}
+.mod_copyright_info {
+	line-height: 18px;
+}
+.fixedtool ul{
+	list-style: none;
+}
